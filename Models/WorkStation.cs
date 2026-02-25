@@ -15,5 +15,6 @@ namespace Budweg.Models
         public int DepartureNumber { get; set; }
         public int WasteNumber { get; set; }
         public string WorkStationName { get; set; }
+        public int WorkstationID { get; set; }
     }
 }
