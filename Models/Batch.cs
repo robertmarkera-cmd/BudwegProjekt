@@ -11,5 +11,6 @@ namespace Budweg.Models
         public int BatchNumber { get; set; }
         public int BatchAmount { get; set; }
         public Bitmap Picture { get; set; }
+        public int BatchID {  get; set; }
     }
 }
