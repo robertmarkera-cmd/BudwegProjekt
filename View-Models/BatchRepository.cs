@@ -34,13 +34,10 @@ namespace Budweg.View_Models
                     + "VALUES(@Comment, @BatchNumber, @BatchAmount, @Picture)" + "SELECT @@IDENTITY", con))
                 {
                     cmd.Parameters.Add("@Comment", SqlDbType.NVarChar).Value = batchToBeCreated.Comment;
-
                     // Ret typerne så de matcher dine DB-kolonner:
                     cmd.Parameters.Add("@BatchNumber", SqlDbType.Int).Value = batchToBeCreated.BatchNumber;   // fx hvis int
                     cmd.Parameters.Add("@BatchAmount", SqlDbType.Int).Value = batchToBeCreated.BatchAmount;   // fx hvis int
-
                     cmd.Parameters.Add("@Picture", SqlDbType.NVarChar).Value = batchToBeCreated.Picture;
-
                     batchToBeCreated.BatchID = (int)cmd.ExecuteScalar();   // <-- Id, ikke Comment
                     _batch.Add(batchToBeCreated);
                 }
@@ -49,8 +46,4 @@ namespace Budweg.View_Models
             }
         }
     }
-}
-//public string Comment { get; set; }
-//public int BatchNumber { get; set; }
-//public int BatchAmount { get; set; }
-//public Bitmap Picture { get; set; }
+
