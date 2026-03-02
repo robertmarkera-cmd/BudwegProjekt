@@ -1,0 +1,1 @@
+{ "ConnectionStrings": { "MyDBConnection": "Server=localhost\\SQLEXPRESS;Database=BudwegDB;Trusted_Connection=True;TrustServerCertificate=true;" } }
