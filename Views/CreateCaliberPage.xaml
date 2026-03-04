@@ -1,0 +1,268 @@
+<Page
+    x:Class="Budweg.Views.CreateCaliberPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Width="355"
+    Background="White">
+
+    <Page.Resources>
+        <SolidColorBrush x:Key="BudwegGreen" Color="#FF00A651" />
+        <SolidColorBrush x:Key="BudwegGreenHover" Color="#FF009148" />
+
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource BudwegGreen}" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Padding" Value="32,10" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border
+                            x:Name="B"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="B" Property="Background" Value="{StaticResource BudwegGreenHover}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SecondaryButton" TargetType="Button">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Foreground" Value="#FF4B5563" />
+            <Setter Property="Padding" Value="32,10" />
+            <Setter Property="BorderBrush" Value="#FFD1D5DB" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border
+                            x:Name="B"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="B" Property="Background" Value="#FFF9FAFB" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="InputBox" TargetType="TextBox">
+            <Setter Property="BorderBrush" Value="#FFD1D5DB" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="10,6" />
+        </Style>
+
+        <Style x:Key="ComboBoxStyle" TargetType="ComboBox">
+            <Setter Property="BorderBrush" Value="#FFD1D5DB" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="10,6" />
+        </Style>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!--  Header  -->
+        <Border
+            Grid.Row="0"
+            Padding="24,18"
+            Background="{StaticResource BudwegGreen}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Border
+                    Grid.Column="0"
+                    Padding="24,12"
+                    Background="White"
+                    CornerRadius="4">
+                    <StackPanel>
+                        <TextBlock
+                            FontSize="26"
+                            FontWeight="Bold"
+                            Foreground="{StaticResource BudwegGreen}"
+                            Text="BUDWEG" />
+                        <TextBlock
+                            FontSize="11"
+                            FontWeight="SemiBold"
+                            Foreground="{StaticResource BudwegGreen}"
+                            Text="BETTER BE SAFE" />
+                    </StackPanel>
+                </Border>
+
+                <Button
+                    Grid.Column="2"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Click="Cancel_Click"
+                    Content="&#xE711;"
+                    FontFamily="Segoe MDL2 Assets"
+                    FontSize="28"
+                    Foreground="White" />
+            </Grid>
+        </Border>
+
+        <!--  Form  -->
+        <ScrollViewer Grid.Row="1">
+            <Grid
+                MaxWidth="900"
+                Margin="24"
+                HorizontalAlignment="Left">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock
+                    Margin="0,0,0,24"
+                    FontSize="26"
+                    FontWeight="SemiBold"
+                    Text="Opret Kaliber" />
+
+                <Grid Grid.Row="1" Margin="0,0,0,18">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="140" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontSize="14"
+                        Text="Stelnummer:" />
+                    <TextBox
+                        x:Name="StelnummerBox"
+                        Grid.Column="1"
+                        Style="{StaticResource InputBox}" />
+                </Grid>
+
+                <Grid Grid.Row="2" Margin="0,0,0,18">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="140" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontSize="14"
+                        Text="Type:" />
+                    <ComboBox
+                        x:Name="TypeBox"
+                        Grid.Column="1"
+                        Style="{StaticResource ComboBoxStyle}">
+                        <ComboBoxItem Content="Vælg type" />
+                        <ComboBoxItem Content="Type 1" />
+                        <ComboBoxItem Content="Type 2" />
+                        <ComboBoxItem Content="Type 3" />
+                    </ComboBox>
+                </Grid>
+
+                <Grid Grid.Row="3" Margin="0,0,0,18">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="140" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontSize="14"
+                        Text="Producent:" />
+                    <TextBox
+                        x:Name="ProducentBox"
+                        Grid.Column="1"
+                        Style="{StaticResource InputBox}" />
+                </Grid>
+
+                <Grid Grid.Row="4" Margin="0,0,0,18">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="140" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Margin="0,6,0,0"
+                        VerticalAlignment="Top"
+                        FontSize="14"
+                        Text="Kommentar:" />
+                    <TextBox
+                        x:Name="KommentarBox"
+                        Grid.Column="1"
+                        Height="140"
+                        AcceptsReturn="True"
+                        Style="{StaticResource InputBox}"
+                        TextWrapping="Wrap"
+                        VerticalScrollBarVisibility="Auto" />
+                </Grid>
+
+                <!--  Image Upload  -->
+                <Grid Grid.Row="5" Margin="0,0,0,18">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="140" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Border
+                        Grid.Column="1"
+                        Padding="24"
+                        Background="#FFF3F4F6"
+                        BorderBrush="#FFD1D5DB"
+                        BorderThickness="2"
+                        CornerRadius="10">
+                        <StackPanel HorizontalAlignment="Center">
+                            <TextBlock
+                                x:Name="SelectedImageText"
+                                Margin="0,0,0,14"
+                                HorizontalAlignment="Center"
+                                Foreground="#FF6B7280"
+                                Text="Ingen billede valgt" />
+                            <Button
+                                Click="PickImage_Click"
+                                Content="Vælg billede..."
+                                Style="{StaticResource PrimaryButton}" />
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <!--  Buttons  -->
+                <StackPanel
+                    Grid.Row="6"
+                    Margin="140,10,0,0"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+                    <Button
+                        Margin="0,0,12,0"
+                        Click="Save_Click"
+                        Content="Gem"
+                        Style="{StaticResource PrimaryButton}" />
+                    <Button
+                        Click="Cancel_Click"
+                        Content="Annuller"
+                        Style="{StaticResource SecondaryButton}" />
+                </StackPanel>
+
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</Page>
