@@ -24,7 +24,7 @@ namespace Budweg.View_Models
 
             ConnectionString = config.GetConnectionString("MyDBConnection");
         }
-        public void Create(Caliper caliperToBeCreated)
+        public void AddCaliber(Caliper caliperToBeCreated)
         {
 
             using (SqlConnection con = new SqlConnection(ConnectionString))
@@ -46,8 +46,3 @@ namespace Budweg.View_Models
         }
     }
 }
-//public string Type { get; set; }
-//public string Manufacturer { get; set; }
-//public string Comment { get; set; }
-//public Bitmap Picture { get; set; }
-//public int FrameID { get; set; }

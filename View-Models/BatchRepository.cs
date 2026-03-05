@@ -24,7 +24,7 @@ namespace Budweg.View_Models
 
             ConnectionString = config.GetConnectionString("MyDBConnection");
         }
-        public void Create(Batch batchToBeCreated)
+        public void AddBatch(Batch batchToBeCreated)
         {
 
             using (SqlConnection con = new SqlConnection(ConnectionString))

@@ -23,7 +23,7 @@ namespace Budweg.View_Models
 
             ConnectionString = config.GetConnectionString("MyDBConnection");
         }
-        public void Create(WorkStation workStationToBeCreated)
+        public void AddWorkStation(WorkStation workStationToBeCreated)
         {
 
             using (SqlConnection con = new SqlConnection(ConnectionString))
