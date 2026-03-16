@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Text;
 
 namespace Budweg.View_Models
@@ -24,25 +26,51 @@ namespace Budweg.View_Models
 
             ConnectionString = config.GetConnectionString("MyDBConnection");
         }
-        public void AddCaliber(Caliper caliperToBeCreated)
+
+        public void AddCaliper(Caliper caliper, int batchId)
         {
-
-            using (SqlConnection con = new SqlConnection(ConnectionString))
+            using (SqlConnection conn = new SqlConnection(ConnectionString))
             {
-                con.Open();
-                using (SqlCommand cmd = new SqlCommand("INSERT INTO Caliper (Type, Manufacturer, Comment, Picture, FrameID)"
-                    + "VALUES(@Type, @Manufacturer, @Comment, @Picture, @FrameID)" + "SELECT @@IDENTITY", con))
+                using (SqlCommand cmd = new SqlCommand("spAddCaliber", conn))
                 {
-                    cmd.Parameters.Add("@Type", SqlDbType.NVarChar).Value = caliperToBeCreated.Type;
-                    cmd.Parameters.Add("@Manufacturer", SqlDbType.DateTime2).Value = caliperToBeCreated.Manufacturer;
-                    cmd.Parameters.Add("@Comment", SqlDbType.DateTime2).Value = caliperToBeCreated.Comment;
-                    cmd.Parameters.Add("@Picture", SqlDbType.NVarChar).Value = caliperToBeCreated.Picture;
-                    cmd.Parameters.Add("@FrameID", SqlDbType.Int).Value = caliperToBeCreated.FrameID;
-                    caliperToBeCreated.FrameID = Convert.ToInt32(cmd.ExecuteScalar());
-                    _caliper.Add(caliperToBeCreated);
+                    cmd.CommandType = CommandType.StoredProcedure;
 
+                    // Standard parametre (med DBNull tjek, hvis værdien er null)
+                    cmd.Parameters.AddWithValue("@Type", caliper.Type ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Manufacturer", caliper.Manufacturer ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Comment", caliper.Comment ?? (object)DBNull.Value);
+
+                    // Foreign Key til Batch
+                    cmd.Parameters.AddWithValue("@BatchID", batchId);
+
+                    // Håndtering af Billede (Konverter Bitmap til byte-array)
+                    byte[] imageBytes = null;
+                    if (caliper.Picture != null)
+                    {
+                        using (MemoryStream ms = new MemoryStream())
+                        {
+                            // Gem som PNG i hukommelsen
+                            caliper.Picture.Save(ms, ImageFormat.Png);
+                            imageBytes = ms.ToArray();
+                        }
+                    }
+
+                    // Tilføj VARBINARY parameter
+                    var picParam = cmd.Parameters.Add("@Picture", SqlDbType.VarBinary, -1);
+                    picParam.Value = imageBytes != null ? (object)imageBytes : DBNull.Value;
+
+                    // Åbn forbindelse og udfør
+                    conn.Open();
+
+                    // ExecuteScalar returnerer den specifikke værdi fra SCOPE_IDENTITY() som vi lavede i SQL
+                    int newFrameId = (int)cmd.ExecuteScalar();
+
+                    // Gem det nye FrameID tilbage på dit instans-objekt, så det er klar til brug i UI'en
+                    caliper.FrameID = newFrameId;
                 }
             }
         }
     }
+}
+}
 }
