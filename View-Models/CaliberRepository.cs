@@ -40,7 +40,7 @@ namespace Budweg.View_Models
                     cmd.Parameters.AddWithValue("@Manufacturer", caliper.Manufacturer ?? (object)DBNull.Value);
                     cmd.Parameters.AddWithValue("@Comment", caliper.Comment ?? (object)DBNull.Value);
 
-                    // Foreign Key til Batch
+                   
                     cmd.Parameters.AddWithValue("@BatchID", batchId);
 
                     // Håndtering af Billede (Konverter Bitmap til byte-array)
@@ -59,18 +59,17 @@ namespace Budweg.View_Models
                     var picParam = cmd.Parameters.Add("@Picture", SqlDbType.VarBinary, -1);
                     picParam.Value = imageBytes != null ? (object)imageBytes : DBNull.Value;
 
-                    // Åbn forbindelse og udfør
+                    
                     conn.Open();
 
-                    // ExecuteScalar returnerer den specifikke værdi fra SCOPE_IDENTITY() som vi lavede i SQL
+                   
                     int newFrameId = (int)cmd.ExecuteScalar();
 
-                    // Gem det nye FrameID tilbage på dit instans-objekt, så det er klar til brug i UI'en
                     caliper.FrameID = newFrameId;
                 }
             }
         }
     }
 }
-}
-}
+
+
