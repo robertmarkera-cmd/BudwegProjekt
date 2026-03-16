@@ -2,7 +2,7 @@
     x:Class="Budweg.Views.CreateCaliberPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Width="355"
+    Width="400"
     Background="White">
 
     <Page.Resources>
@@ -175,9 +175,9 @@
                         Grid.Column="1"
                         Style="{StaticResource ComboBoxStyle}">
                         <ComboBoxItem Content="Vælg type" />
-                        <ComboBoxItem Content="Type 1" />
-                        <ComboBoxItem Content="Type 2" />
-                        <ComboBoxItem Content="Type 3" />
+                        <ComboBoxItem Content="Forhjulsbremsekaliber" />
+                        <ComboBoxItem Content="Håndbremsekaliber" />
+                        <ComboBoxItem Content="Elektronisk håndbremsekaliber" />
                     </ComboBox>
                 </Grid>
 
