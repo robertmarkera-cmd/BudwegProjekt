@@ -1,12 +1,8 @@
 ﻿using Budweg.Models;
 using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.Json;
-using System;
-using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
 using System.Data;
-using System.Drawing;
-using System.Text;
 
 namespace Budweg.View_Models
 {
@@ -18,29 +14,56 @@ namespace Budweg.View_Models
 
         public CaliberRepository()
         {
-            IConfigurationRoot config = new ConfigurationBuilder()
-                .AddJsonFile("jsconfig1.json")
-            .Build();
 
-            ConnectionString = config.GetConnectionString("MyDBConnection");
+            var json = File.ReadAllText("jsconfig1.json");
+            using var doc = JsonDocument.Parse(json);
+            if (doc.RootElement.TryGetProperty("ConnectionStrings", out var cs)
+                && cs.TryGetProperty("MyDBConnection", out var conn))
+            {
+                ConnectionString = conn.GetString() ?? string.Empty;
+            }
+            else
+            {
+                ConnectionString = string.Empty;
+            }
+
+
         }
         public void AddCaliber(Caliper caliperToBeCreated)
         {
 
+            byte[]? pictureBytes = null;
+            if (caliperToBeCreated.Picture != null)
+            {
+                using (var ms = new System.IO.MemoryStream())
+                {
+                    caliperToBeCreated.Picture.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                    pictureBytes = ms.ToArray();
+                }
+            }
+
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {
                 con.Open();
-                using (SqlCommand cmd = new SqlCommand("INSERT INTO Caliper (Type, Manufacturer, Comment, Picture, FrameID)"
-                    + "VALUES(@Type, @Manufacturer, @Comment, @Picture, @FrameID)" + "SELECT @@IDENTITY", con))
-                {
-                    cmd.Parameters.Add("@Type", SqlDbType.NVarChar).Value = caliperToBeCreated.Type;
-                    cmd.Parameters.Add("@Manufacturer", SqlDbType.DateTime2).Value = caliperToBeCreated.Manufacturer;
-                    cmd.Parameters.Add("@Comment", SqlDbType.DateTime2).Value = caliperToBeCreated.Comment;
-                    cmd.Parameters.Add("@Picture", SqlDbType.NVarChar).Value = caliperToBeCreated.Picture;
-                    cmd.Parameters.Add("@FrameID", SqlDbType.Int).Value = caliperToBeCreated.FrameID;
-                    caliperToBeCreated.FrameID = Convert.ToInt32(cmd.ExecuteScalar());
-                    _caliper.Add(caliperToBeCreated);
 
+                using (SqlCommand cmd = new SqlCommand("dbo.CreateCaliber", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add("@Type", SqlDbType.NVarChar, 80).Value = (object?)caliperToBeCreated.Type ?? DBNull.Value;
+                    cmd.Parameters.Add("@Comment", SqlDbType.NVarChar, 255).Value = (object?)caliperToBeCreated.Comment ?? DBNull.Value;
+                    cmd.Parameters.Add("@Picture", SqlDbType.VarBinary, -1).Value = (object?)pictureBytes ?? DBNull.Value;
+                    cmd.Parameters.Add("@ItemNumber", SqlDbType.Int).Value = caliperToBeCreated.FrameID;
+                    cmd.Parameters.Add("@Brand", SqlDbType.NVarChar, 80).Value = (object?)caliperToBeCreated.Manufacturer ?? DBNull.Value;
+                    cmd.Parameters.Add("@BatchID", SqlDbType.Int).Value = DBNull.Value;
+
+                    var result = cmd.ExecuteScalar();
+                    if (result != null && int.TryParse(result.ToString(), out var newId))
+                    {
+                        caliperToBeCreated.FrameID = newId;
+                    }
+
+                    _caliper.Add(caliperToBeCreated);
                 }
             }
         }

@@ -3,11 +3,18 @@ using System.Windows.Input;
 
 namespace Budweg.Commands
 {
-    public class SaveCommand : RelayCommand
+    public class SaveCommand : ICommand
     {
-        public SaveCommand(Action<object?> execute, Func<object?, bool>? canExecute = null)
-            : base(execute, canExecute)
+        public event EventHandler? CanExecuteChanged;
+
+        public bool CanExecute(object? parameter)
         {
+            return true;
+        }
+
+        public void Execute(object? parameter)
+        {
+            throw new NotImplementedException();
         }
     }
 }

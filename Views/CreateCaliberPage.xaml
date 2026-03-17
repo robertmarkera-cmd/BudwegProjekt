@@ -138,6 +138,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <TextBlock
@@ -202,6 +203,21 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <TextBlock
+                        VerticalAlignment="Center"
+                        FontSize="14"
+                        Text="Batch:" />
+                    <TextBox
+                        x:Name="BatchBox"
+                        Grid.Column="1"
+                        Style="{StaticResource InputBox}" />
+                </Grid>
+
+                <Grid Grid.Row="5" Margin="0,0,0,18">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="140" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
                         Margin="0,6,0,0"
                         VerticalAlignment="Top"
                         FontSize="14"
@@ -217,7 +233,7 @@
                 </Grid>
 
                 <!--  Image Upload  -->
-                <Grid Grid.Row="5" Margin="0,0,0,18">
+                <Grid Grid.Row="6" Margin="0,0,0,18">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="140" />
                         <ColumnDefinition Width="*" />
@@ -247,7 +263,7 @@
 
                 <!--  Buttons  -->
                 <StackPanel
-                    Grid.Row="6"
+                    Grid.Row="7"
                     Margin="140,10,0,0"
                     HorizontalAlignment="Right"
                     Orientation="Horizontal">
