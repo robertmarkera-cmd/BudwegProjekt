@@ -1,5 +1,6 @@
 ﻿using Budweg.Models;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 using System.Data;
 using System.IO;
 using System.Text.Json;
@@ -12,14 +13,11 @@ namespace Budweg.View_Models
 
         public CaliberRepository()
         {
-            var json = File.ReadAllText("jsconfig1.json");
-            var doc = JsonDocument.Parse(json);
-            ConnectionString =
-                doc.RootElement
-                   .GetProperty("ConnectionStrings")
-                   .GetProperty("MyDBConnection")
-                   .GetString()
-                   ?? "";
+            var config = new ConfigurationBuilder()
+                .AddJsonFile("jsconfig1.json")
+                .Build();
+
+            ConnectionString = config.GetConnectionString("MyDBConnection") ?? "";
         }
 
         public void AddCaliber(Caliper cal)

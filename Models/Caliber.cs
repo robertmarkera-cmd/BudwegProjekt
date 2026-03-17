@@ -7,5 +7,5 @@ public class Caliper
     public string? Comment { get; set; }
     public Bitmap? Picture { get; set; }
     public int FrameID { get; set; }
-    public int BatchID { get; set; }   // ← VIGTIG!
+    public int BatchID { get; set; } 
 }
