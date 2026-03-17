@@ -270,6 +270,7 @@
                     <Button
                         Margin="0,0,12,0"
                         Click="Save_Click"
+                        Command="{Binding SaveCommand}"
                         Content="Gem"
                         Style="{StaticResource PrimaryButton}" />
                     <Button
