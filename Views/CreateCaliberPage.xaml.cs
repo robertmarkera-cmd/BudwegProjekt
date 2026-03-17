@@ -43,8 +43,12 @@ namespace Budweg.Views
             var producent = ProducentBox.Text;
             var kommentar = KommentarBox.Text;
 
-            // TODO: replace with your real persistence layer
+            
+
+
             MessageBox.Show($"Gem:\n{stelnummer}\n{type}\n{producent}\n{kommentar}\nImage: {_selectedImagePath}");
+            var win = Window.GetWindow(this);
+            win.Close();
         }
     }
 }

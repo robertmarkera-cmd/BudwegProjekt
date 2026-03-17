@@ -30,16 +30,16 @@ namespace Budweg.View_Models
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {
                 con.Open();
-                using (SqlCommand cmd = new SqlCommand("INSERT INTO Caliper (Type, Manufacturer, Comment, Picture, FrameID)"
-                    + "VALUES(@Type, @Manufacturer, @Comment, @Picture, @FrameID)" + "SELECT @@IDENTITY", con))
+                using (SqlCommand cmd = new SqlCommand("AddCaliper", con))
                 {
+                    cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("@Type", SqlDbType.NVarChar).Value = caliperToBeCreated.Type;
-                    cmd.Parameters.Add("@Manufacturer", SqlDbType.DateTime2).Value = caliperToBeCreated.Manufacturer;
-                    cmd.Parameters.Add("@Comment", SqlDbType.DateTime2).Value = caliperToBeCreated.Comment;
+                    cmd.Parameters.Add("@Manufacturer", SqlDbType.NVarChar).Value = caliperToBeCreated.Manufacturer;
+                    cmd.Parameters.Add("@Comment", SqlDbType.NVarChar).Value = caliperToBeCreated.Comment;
                     cmd.Parameters.Add("@Picture", SqlDbType.NVarChar).Value = caliperToBeCreated.Picture;
                     cmd.Parameters.Add("@FrameID", SqlDbType.Int).Value = caliperToBeCreated.FrameID;
+
                     caliperToBeCreated.FrameID = Convert.ToInt32(cmd.ExecuteScalar());
-                    _caliper.Add(caliperToBeCreated);
 
                 }
             }
