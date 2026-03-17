@@ -38,14 +38,12 @@ namespace Budweg.Views
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            // ItemNumber
             if (!int.TryParse(StelnummerBox.Text.Trim(), out int frameId))
             {
                 MessageBox.Show("Stelnummer skal være et tal!");
                 return;
             }
 
-            // BatchID (IKKE NULL!)
             if (!int.TryParse(BatchBox.Text.Trim(), out int batchId))
             {
                 MessageBox.Show("BatchID skal være et tal, og må ikke være tom!");
@@ -68,16 +66,12 @@ namespace Budweg.Views
 
             var repo = new CaliberRepository();
 
-            try
-            {
-                repo.AddCaliber(cal);
-                MessageBox.Show($"Kaliber oprettet! Nyt ID: {cal.FrameID}");
-                Window.GetWindow(this)?.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Fejl: " + ex.Message);
-            }
+
+            repo.AddCaliber(cal);
+            MessageBox.Show($"Kaliber oprettet! Nyt ID: {cal.FrameID}");
+            Window.GetWindow(this)?.Close();
+
+
         }
     }
 }
