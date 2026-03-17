@@ -1,16 +1,13 @@
 ﻿using Budweg.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
-using System;
 using System.Data;
-using System.Windows.Input;
 
 namespace Budweg.View_Models
 {
     public class CaliberRepository
     {
         private readonly string ConnectionString;
-        public ICommand Save { get; }
 
         public CaliberRepository()
         {
@@ -19,35 +16,11 @@ namespace Budweg.View_Models
                 .Build();
 
             ConnectionString = config.GetConnectionString("MyDBConnection") ?? "";
-
-            Save = new SaveCommand(ConnectionString);
         }
 
         public void AddCaliber(Caliper cal)
         {
-            Save.Execute(cal);
-        }
-    }
-
-    public class SaveCommand : ICommand
-    {
-        private readonly string _connectionString;
-
-        public SaveCommand(string connectionString)
-        {
-            _connectionString = connectionString;
-        }
-
-        public event EventHandler? CanExecuteChanged;
-
-        public bool CanExecute(object? parameter) => true;
-
-        public void Execute(object? parameter)
-        {
-            if (parameter is not Caliper cal)
-                return;
-
-            using var con = new SqlConnection(_connectionString);
+            using var con = new SqlConnection(ConnectionString);
             using var cmd = new SqlCommand("dbo.CreateCaliber", con);
 
             cmd.CommandType = CommandType.StoredProcedure;
