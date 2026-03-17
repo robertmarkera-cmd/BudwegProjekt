@@ -22,14 +22,7 @@ namespace Budweg.View_Models
 
         public void AddCaliber(Caliper cal)
         {
-            byte[]? pictureBytes = null;
-
-            if (cal.Picture != null)
-            {
-                using var ms = new MemoryStream();
-                cal.Picture.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                pictureBytes = ms.ToArray();
-            }
+            
 
             using var con = new SqlConnection(ConnectionString);
             using var cmd = new SqlCommand("dbo.CreateCaliber", con);
@@ -38,7 +31,6 @@ namespace Budweg.View_Models
 
             cmd.Parameters.Add("@Type", SqlDbType.NVarChar, 80).Value = (object?)cal.Type ?? DBNull.Value;
             cmd.Parameters.Add("@Comment", SqlDbType.NVarChar, 255).Value = (object?)cal.Comment ?? DBNull.Value;
-            cmd.Parameters.Add("@Picture", SqlDbType.VarBinary, -1).Value = (object?)pictureBytes ?? DBNull.Value;
             cmd.Parameters.Add("@ItemNumber", SqlDbType.Int).Value = cal.FrameID;
             cmd.Parameters.Add("@Brand", SqlDbType.NVarChar, 80).Value = (object?)cal.Manufacturer ?? DBNull.Value;
             cmd.Parameters.Add("@BatchID", SqlDbType.Int).Value = cal.BatchID; // REQUIRED
