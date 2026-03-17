@@ -116,11 +116,12 @@
                     Grid.Column="2"
                     Background="Transparent"
                     BorderThickness="0"
-                    Click="Cancel_Click"
                     Content="&#xE711;"
                     FontFamily="Segoe MDL2 Assets"
                     FontSize="28"
-                    Foreground="White" />
+                    Foreground="White"
+                    Command="{Binding CancelCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
             </Grid>
         </Border>
 
@@ -158,7 +159,8 @@
                     <TextBox
                         x:Name="StelnummerBox"
                         Grid.Column="1"
-                        Style="{StaticResource InputBox}" />
+                        Style="{StaticResource InputBox}"
+                        Text="{Binding Stelnummer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </Grid>
 
                 <Grid Grid.Row="2" Margin="0,0,0,18">
@@ -173,7 +175,10 @@
                     <ComboBox
                         x:Name="TypeBox"
                         Grid.Column="1"
-                        Style="{StaticResource ComboBoxStyle}">
+                        Style="{StaticResource ComboBoxStyle}"
+                        SelectedIndex="0"
+                        SelectedValuePath="Content"
+                        SelectedValue="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                         <ComboBoxItem Content="Vælg type" />
                         <ComboBoxItem Content="Forhjulsbremsekaliber" />
                         <ComboBoxItem Content="Håndbremsekaliber" />
@@ -193,7 +198,8 @@
                     <TextBox
                         x:Name="ProducentBox"
                         Grid.Column="1"
-                        Style="{StaticResource InputBox}" />
+                        Style="{StaticResource InputBox}"
+                        Text="{Binding Producent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </Grid>
 
                 <Grid Grid.Row="4" Margin="0,0,0,18">
@@ -213,7 +219,8 @@
                         AcceptsReturn="True"
                         Style="{StaticResource InputBox}"
                         TextWrapping="Wrap"
-                        VerticalScrollBarVisibility="Auto" />
+                        VerticalScrollBarVisibility="Auto"
+                        Text="{Binding Kommentar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </Grid>
 
                 <!--  Image Upload  -->
@@ -236,11 +243,11 @@
                                 Margin="0,0,0,14"
                                 HorizontalAlignment="Center"
                                 Foreground="#FF6B7280"
-                                Text="Ingen billede valgt" />
+                                Text="{Binding SelectedImagePath}" />
                             <Button
-                                Click="PickImage_Click"
                                 Content="Vælg billede..."
-                                Style="{StaticResource PrimaryButton}" />
+                                Style="{StaticResource PrimaryButton}"
+                                IsEnabled="False" />
                         </StackPanel>
                     </Border>
                 </Grid>
@@ -253,13 +260,15 @@
                     Orientation="Horizontal">
                     <Button
                         Margin="0,0,12,0"
-                        Click="Save_Click"
                         Content="Gem"
-                        Style="{StaticResource PrimaryButton}" />
+                        Style="{StaticResource PrimaryButton}"
+                        Command="{Binding SaveCommand}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
                     <Button
-                        Click="Cancel_Click"
                         Content="Annuller"
-                        Style="{StaticResource SecondaryButton}" />
+                        Style="{StaticResource SecondaryButton}"
+                        Command="{Binding CancelCommand}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
                 </StackPanel>
 
             </Grid>

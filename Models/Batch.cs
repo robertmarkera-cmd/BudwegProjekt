@@ -10,7 +10,8 @@ namespace Budweg.Models
         public string Comment { get; set; }
         public int BatchNumber { get; set; }
         public int BatchAmount { get; set; }
-        public Bitmap Picture { get; set; }
+        // store image path instead of Bitmap
+        public string Picture { get; set; }
         public int BatchID {  get; set; }
     }
 }
